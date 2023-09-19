@@ -44,13 +44,14 @@ S = BeautifulSoup(index, 'lxml')
 regionListing = S.find('div', class_='aws-dropdown-wrapper lb-dropdown')
 
 for data in regionListing.find_all('li'):
-    print(data.text)
-    print(data.get("data-region"))
+    # print(data.text)
+    # print(data.get("data-region"))
     so = S.find('div', class_='aws-plc-content')
     allDiv = so.find_all('div')
-    for data in allDiv[0]:
-        print(data.text)
+    for dataInternal in allDiv:
+        if(dataInternal.get('data-region') == data.get("data-region")):
+            print(data.get("data-region") , " = " , data.text)
 
-region = S.find('div', attrs = {"data-region":"us-east-1"})
-for data in region:
-    print(data.text)
+# region = S.find('div', attrs = {"data-region":"us-east-1"})
+# for data in region:
+#     print(data.text)

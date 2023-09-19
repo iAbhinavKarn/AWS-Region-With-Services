@@ -1,57 +1,29 @@
-# import requests
-# from bs4 import BeautifulSoup
-
-
-# request = requests.get('https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/')
-
-# print(requests)
-
-# print(type(request.content))
-
-# soup = BeautifulSoup(request.content, 'html.parser')
-# # print(soup.prettify())
-
-# # Getting the title tag
-# print(soup.title)
- 
-# # Getting the name of the tag
-# print(soup.title.name)
- 
-# # Getting the name of parent tag
-# print(soup.title.parent.name)
-
-# s = soup.find('div', class_='aws-table aws-plc-main')
-# content = s.find_all('div')
-
-# # print(s)
-# # print(content)
-
-
 from bs4 import BeautifulSoup
-  
-# Opening the html file
+import json
+
 HTMLFile = open("index.html", "r")
-  
-# Reading the file
+
 index = HTMLFile.read()
-  
-# Creating a BeautifulSoup object and specifying the parser
+
+dict_database = {}
+
 S = BeautifulSoup(index, 'lxml')
-  
-# Using the select-one method to find the second element from the li tag
-# Tag = S.select_one('li:nth-of-type(2)')
 
 regionListing = S.find('div', class_='aws-dropdown-wrapper lb-dropdown')
-
+alltext = "123"
 for data in regionListing.find_all('li'):
     # print(data.text)
     # print(data.get("data-region"))
     so = S.find('div', class_='aws-plc-content')
     allDiv = so.find_all('div')
-    for dataInternal in allDiv:
-        if(dataInternal.get('data-region') == data.get("data-region")):
-            print(data.get("data-region") , " = " , data.text)
-
-# region = S.find('div', attrs = {"data-region":"us-east-1"})
-# for data in region:
-#     print(data.text)
+    for dataInternal in S.find('div', attrs = {"data-region":data.get('data-region')}):
+        # print(dataInternal)
+        # print(dataInternal.text)
+        tdData = dataInternal.find_all_next('td')
+        print(tdData.text)
+        dict_database[data.get('data-region')] = dataInternal.text
+        # if(dataInternal.get('data-region') == data.get("data-region")):
+        #     print(type(dataInternal.text))
+            # print("{} {} {}".format(dataInternal.get('data-region'), "=", dataInternal.text))
+            # print(dataInternal.get('data-region') , " = ", dataInternal.text)
+print(dict_database)

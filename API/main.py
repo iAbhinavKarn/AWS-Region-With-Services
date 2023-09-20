@@ -3,7 +3,7 @@ import json
 
 app = FastAPI()
 
-db_internal = {
+db_internal = '''{
   "us-east-1": [
     "",
     "Amazon Macie",
@@ -4736,8 +4736,14 @@ db_internal = {
     "AWS Organizations",
     "AWS Well-Architected Tool"
   ]
-}
+}'''
 
-@app.get("/region")
+jsonString = json.loads(db_internal)
+@app.get("/service-and-region-list")
 def root():
-    return db_internal.keys()
+    return jsonString
+  
+
+@app.get("/region-services/{region_name}")
+def root(region_name:str):
+    return jsonString[region_name]
